@@ -22,7 +22,7 @@
     <link href="assets/libs/dropzone/dropzone.min.css" rel="stylesheet" type="text/css" />
     <!-- Jquery Toast css -->
     <link href="assets/libs/jquery-toast/jquery.toast.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="assets/libs/select2/select2.min.css" rel="stylesheet" />
 
 
 
@@ -83,6 +83,31 @@
 
                                 </div>
                                 <div class="form-group col-md-3">
+                                    <label for="customer_province" class="col-form-label">ولایت</label>
+                                    <span class="text-danger">*</span>
+                                    <select class="form-control js-example-basic-single border border-dark"
+                                        name="customer_province"  required id="customer_province">
+                                        <?php
+                                            $sql_query_002 = mysqli_query($connection,"SELECT * FROM `provinces`");
+                                            while ($rows = mysqli_fetch_assoc($sql_query_002)) {
+                                                if($fetch_001["province_id"] == $rows["id"]){
+                                        ?>
+                                        <option selected value="<?php echo $rows["id"]; ?>"><?php echo $rows["name"]; ?></option>
+
+                                        <?php
+                                                }
+                                                else
+                                                {
+                                        ?>
+                                        <option value="<?php echo $rows["id"]; ?>"><?php echo $rows["name"]; ?></option>
+
+                                        <?php
+                                                }
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
                                     <label for="phone_number" class="col-form-label">شماره تماس</label>
                                     <span class="text-danger">*</span>
                                     <input type="text" class="form-control border border-dark" data-toggle="input-mask"
@@ -132,6 +157,22 @@
                                         placeholder="بنویسید .. ">
                                         <input type="hidden" name="edit" value="">
 
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="customer_province" class="col-form-label">ولایت</label>
+                                    <span class="text-danger">*</span>
+                                    <select class="form-control js-example-basic-single border border-dark"
+                                        name="customer_province"  required id="customer_province">
+                                        <?php
+                                            $sql_query_002 = mysqli_query($connection,"SELECT * FROM `provinces`");
+                                            while ($rows = mysqli_fetch_assoc($sql_query_002)) {
+                                        ?>
+                                        <option value="<?php echo $rows["id"]; ?>"><?php echo $rows["name"]; ?></option>
+
+                                        <?php
+                                            }
+                                        ?>
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="phone_number" class="col-form-label">شماره تماس</label>
@@ -305,7 +346,7 @@
 
     <!-- persian datepicker js -->
     <script src="assets/js/persian-datepicker.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="assets/libs/select2/select2.min.js"></script>
 
 
     <!-- Plugins js -->
@@ -378,12 +419,12 @@
                     } else {
                         $.toast({
                             heading: ' پاسخ ',
-                            text: 'اطلاعات شما موفقانه در سیستم ذخیره گردید ',
+                            text: 'خطا در ذخیره سازی اطلاعات',
                             icon: 'success',
                             loader: true,
                             position: 'top-right', // Change it to false to disable loader
                             loaderBg: '#9EC600',
-                            bgColor: '#34A853',
+                            bgColor: 'red',
                             textColor: 'white' // To change the background
                         });
                         if(url != "")

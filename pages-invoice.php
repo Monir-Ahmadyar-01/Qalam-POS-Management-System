@@ -443,9 +443,12 @@
                         var remain_amount = Number(purchase_quantity) - Number(sold_quantity);
 
                         
-                        options += '<option value="' + purchase_id + '">' + item_name +
+                        if(remain_amount > 0)
+                        {
+                            options += '<option value="' + purchase_id + '">' + item_name +
                             " - " + unit_name + " -  :  تاریخ خرید  "  + purchase_date + " - باقی : " +
                             remain_amount.toFixed(2) + " " + unit_name + '</option>';
+                        }
 
 
                         counter++;
@@ -563,7 +566,7 @@
                     count_2 + "' name='purchase_price' readonly value='"+purchase_price_per+"' /></td>";
                 row +=
                 "<td><input type='text' class='form-control sale_price' id='sale_price_" +
-                count_2 + "' name='sale_price' readonly value='"+sale_price+"' /></td>";
+                count_2 + "' name='sale_price' value='"+sale_price+"' /></td>";
                 
                 // row +=
                 // "<td><input type='text' class='form-control expense' id='expense_" +
@@ -601,7 +604,17 @@
         var total_price = 0;
         for (var x = 1; x <= count; x++) {
             // alert($('#amount_' + x).val());
-           
+            var amount = Number($('#amount_' + x).val());
+            var item_remain_amount = Number($('#item_remain_amount_hidden_' + x).val());
+            if(Number(item_remain_amount - amount)>= 0)
+            {
+
+            }
+            else
+            {
+                $('#amount_' + x).val(item_remain_amount)
+            }
+
 
             var sale_price = Number($('#sale_price_' + x).val());
 
@@ -623,6 +636,8 @@
             var actual_price = ((sale_price) * amount).toFixed(2);
             $('#row_total_' + x).val(actual_price);
             $('#item_remain_amount_' + x).val(item_remain_amount - amount);
+
+            
             
             total_price = total_price + Number(actual_price);
             // $('#total_amount_' + x).val(actual_price.toFixed(0));

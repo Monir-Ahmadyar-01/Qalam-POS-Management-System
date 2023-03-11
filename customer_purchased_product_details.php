@@ -53,10 +53,10 @@
                         <ol class="breadcrumb m-0">
                             
                             <li class="breadcrumb-item"><a href="javascript: void(0);">صفحات</a></li>
-                            <li class="breadcrumb-item active"> نمایش  صفحه فروش</li>
+                            <li class="breadcrumb-item active">  نمایش  صفحه خرید های مشتری</li>
                         </ol>
                     </div>
-                    <p class="page-title">  نمایش   صفحه فروش</p>
+                    <p class="page-title text text-success">  نمایش   صفحه خرید های مشتری  (<?php echo $_GET["customer_name"]; ?>)</p>
                 </div> 
                 <!-- end page title -->
                 
@@ -114,18 +114,18 @@
                                 $total_expenses = 0;
                                 $total_benifit = 0;
 
-
+                                $customer_id = $_GET["customer_id"];
                                 $count = 1;
                                 if(isset($_POST["search_button"]))
                                 {
                                     $search_input = $_POST["search_input"];
-                                    $sql_query_001 = mysqli_query($connection,"select `qalam_mis_dental_version`.`sale_major`.`id` AS `bill_number`,`qalam_mis_dental_version`.`customers`.`full_name` AS `customer_name`,
-                                    `qalam_mis_dental_version`.`customers`.`province_id`,`qalam_mis_dental_version`.`currencies`.`name` AS `currency_name`,`qalam_mis_dental_version`.`sale_major`.`date` AS `sale_date`,`qalam_mis_dental_version`.`sale_major`.`reciept` AS `total_reciept`,(select sum(`qalam_mis_dental_version`.`sale_minor`.`sale_rate` * `qalam_mis_dental_version`.`sale_minor`.`amount`) from `qalam_mis_dental_version`.`sale_minor` where `qalam_mis_dental_version`.`sale_minor`.`sale_major_id` = `qalam_mis_dental_version`.`sale_major`.`id`) AS `total_sold_price`,(select sum(`qalam_mis_dental_version`.`sale_minor`.`expense` * `qalam_mis_dental_version`.`sale_minor`.`amount`) from `qalam_mis_dental_version`.`sale_minor` where `qalam_mis_dental_version`.`sale_minor`.`sale_major_id` = `qalam_mis_dental_version`.`sale_major`.`id`) AS `total_expense_price`,(select sum(`qalam_mis_dental_version`.`reciepts`.`amount` / `qalam_mis_dental_version`.`reciepts`.`rate`) from `qalam_mis_dental_version`.`reciepts` where `qalam_mis_dental_version`.`reciepts`.`sale_id` = `qalam_mis_dental_version`.`sale_major`.`id`) AS `total_reciepts_price` from ((`qalam_mis_dental_version`.`sale_major` left join `qalam_mis_dental_version`.`currencies` on(`qalam_mis_dental_version`.`currencies`.`id` = `qalam_mis_dental_version`.`sale_major`.`currency_id`)) left join `qalam_mis_dental_version`.`customers` on(`qalam_mis_dental_version`.`customers`.`id` = `qalam_mis_dental_version`.`sale_major`.`customer_id`)) where qalam_mis_dental_version.sale_major.alterant_id IS NULL and (customers.full_name='$search_input' or (select provinces.name from provinces where provinces.id=customers.province_id)='$search_input' or sale_major.id like '$search_input' or sale_major.date like '$search_input')  order by `qalam_mis_dental_version`.`sale_major`.`id` desc");
+                                    $sql_query_001 = mysqli_query($connection,"select `qalam_mis_dental_version`.`sale_major`.`id` AS `bill_number`,`qalam_mis_dental_version`.`customers`.`full_name` AS `customer_name`,`qalam_mis_dental_version`.`customers`.`province_id`,`qalam_mis_dental_version`.`currencies`.`name` AS `currency_name`,`qalam_mis_dental_version`.`sale_major`.`date` AS `sale_date`,`qalam_mis_dental_version`.`sale_major`.`reciept` AS `total_reciept`,(select sum(`qalam_mis_dental_version`.`sale_minor`.`sale_rate` * `qalam_mis_dental_version`.`sale_minor`.`amount`) from `qalam_mis_dental_version`.`sale_minor` where `qalam_mis_dental_version`.`sale_minor`.`sale_major_id` = `qalam_mis_dental_version`.`sale_major`.`id`) AS `total_sold_price`,(select sum(`qalam_mis_dental_version`.`sale_minor`.`expense` * `qalam_mis_dental_version`.`sale_minor`.`amount`) from `qalam_mis_dental_version`.`sale_minor` where `qalam_mis_dental_version`.`sale_minor`.`sale_major_id` = `qalam_mis_dental_version`.`sale_major`.`id`) AS `total_expense_price`,(select sum(`qalam_mis_dental_version`.`reciepts`.`amount` / `qalam_mis_dental_version`.`reciepts`.`rate`) from `qalam_mis_dental_version`.`reciepts` where `qalam_mis_dental_version`.`reciepts`.`sale_id` = `qalam_mis_dental_version`.`sale_major`.`id`) AS `total_reciepts_price` from ((`qalam_mis_dental_version`.`sale_major` left join `qalam_mis_dental_version`.`currencies` on(`qalam_mis_dental_version`.`currencies`.`id` = `qalam_mis_dental_version`.`sale_major`.`currency_id`)) left join `qalam_mis_dental_version`.`customers` on(`qalam_mis_dental_version`.`customers`.`id` = `qalam_mis_dental_version`.`sale_major`.`customer_id`)) where qalam_mis_dental_version.sale_major.alterant_id IS NULL and customers.id='$customer_id' and (sale_major.id like '$search_input' or sale_major.date like '$search_input') order by `qalam_mis_dental_version`.`sale_major`.`id` desc");
                                 }
                                 else
                                 {
                                     $sql_query_001 = mysqli_query($connection,"select `qalam_mis_dental_version`.`sale_major`.`id` AS `bill_number`,`qalam_mis_dental_version`.`customers`.`full_name` AS `customer_name`,
-                                    `qalam_mis_dental_version`.`customers`.`province_id`,`qalam_mis_dental_version`.`currencies`.`name` AS `currency_name`,`qalam_mis_dental_version`.`sale_major`.`date` AS `sale_date`,`qalam_mis_dental_version`.`sale_major`.`reciept` AS `total_reciept`,(select sum(`qalam_mis_dental_version`.`sale_minor`.`sale_rate` * `qalam_mis_dental_version`.`sale_minor`.`amount`) from `qalam_mis_dental_version`.`sale_minor` where `qalam_mis_dental_version`.`sale_minor`.`sale_major_id` = `qalam_mis_dental_version`.`sale_major`.`id`) AS `total_sold_price`,(select sum(`qalam_mis_dental_version`.`sale_minor`.`expense` * `qalam_mis_dental_version`.`sale_minor`.`amount`) from `qalam_mis_dental_version`.`sale_minor` where `qalam_mis_dental_version`.`sale_minor`.`sale_major_id` = `qalam_mis_dental_version`.`sale_major`.`id`) AS `total_expense_price`,(select sum(`qalam_mis_dental_version`.`reciepts`.`amount` / `qalam_mis_dental_version`.`reciepts`.`rate`) from `qalam_mis_dental_version`.`reciepts` where `qalam_mis_dental_version`.`reciepts`.`sale_id` = `qalam_mis_dental_version`.`sale_major`.`id`) AS `total_reciepts_price` from ((`qalam_mis_dental_version`.`sale_major` left join `qalam_mis_dental_version`.`currencies` on(`qalam_mis_dental_version`.`currencies`.`id` = `qalam_mis_dental_version`.`sale_major`.`currency_id`)) left join `qalam_mis_dental_version`.`customers` on(`qalam_mis_dental_version`.`customers`.`id` = `qalam_mis_dental_version`.`sale_major`.`customer_id`)) where qalam_mis_dental_version.sale_major.alterant_id IS NULL  order by `qalam_mis_dental_version`.`sale_major`.`id` desc");
+                                    `qalam_mis_dental_version`.`customers`.`province_id`,
+                                    `qalam_mis_dental_version`.`currencies`.`name` AS `currency_name`,`qalam_mis_dental_version`.`sale_major`.`date` AS `sale_date`,`qalam_mis_dental_version`.`sale_major`.`reciept` AS `total_reciept`,(select sum(`qalam_mis_dental_version`.`sale_minor`.`sale_rate` * `qalam_mis_dental_version`.`sale_minor`.`amount`) from `qalam_mis_dental_version`.`sale_minor` where `qalam_mis_dental_version`.`sale_minor`.`sale_major_id` = `qalam_mis_dental_version`.`sale_major`.`id`) AS `total_sold_price`,(select sum(`qalam_mis_dental_version`.`sale_minor`.`expense` * `qalam_mis_dental_version`.`sale_minor`.`amount`) from `qalam_mis_dental_version`.`sale_minor` where `qalam_mis_dental_version`.`sale_minor`.`sale_major_id` = `qalam_mis_dental_version`.`sale_major`.`id`) AS `total_expense_price`,(select sum(`qalam_mis_dental_version`.`reciepts`.`amount` / `qalam_mis_dental_version`.`reciepts`.`rate`) from `qalam_mis_dental_version`.`reciepts` where `qalam_mis_dental_version`.`reciepts`.`sale_id` = `qalam_mis_dental_version`.`sale_major`.`id`) AS `total_reciepts_price` from ((`qalam_mis_dental_version`.`sale_major` left join `qalam_mis_dental_version`.`currencies` on(`qalam_mis_dental_version`.`currencies`.`id` = `qalam_mis_dental_version`.`sale_major`.`currency_id`)) left join `qalam_mis_dental_version`.`customers` on(`qalam_mis_dental_version`.`customers`.`id` = `qalam_mis_dental_version`.`sale_major`.`customer_id`)) where qalam_mis_dental_version.sale_major.alterant_id IS NULL and customers.id='$customer_id' order by `qalam_mis_dental_version`.`sale_major`.`id` desc");
                                 }
                                     
                                     
@@ -136,6 +136,7 @@
                                     <tr>
                                         <td><?php echo $count; ?></td>
                                         <td><?php echo $row["bill_number"]; ?></td>
+                                        
                                         <td><?php echo $row["customer_name"]; ?></td>
                                         <td>
                                             <?php 
@@ -154,9 +155,7 @@
                                         <td><?php echo round($row["total_sold_price"],2); ?></td>
                                         <!-- <td><?php echo round($row["total_expense_price"],2); ?></td> -->
                                         
-                                        <td class="print-display"><span class="fa fa-edit text text-success admin_authority" id="btn_modal" class="btn btn-primary" onclick="set_row_data_edit_func(<?php echo $row['bill_number']; ?>)" data-toggle="modal"
-        data-target="#exampleModal"></span> | <a class="collapsed card-link" data-toggle="collapse" href="#collapse_<?php echo $count; ?>"><span class="fa fa-eye"></span></a> | <span class="fa fa-trash text text-danger admin_authority" onclick="delete_func(<?php echo $row['bill_number']; ?>)"></span>
-         <!-- | <a href="sales_reciepts.php?sale_id=<?php echo $row['bill_number']; ?>"><span class="fa fa-plus text text-success" ></span></a> -->
+                                        <td class="print-display"><a class="collapsed card-link" data-toggle="collapse" href="#collapse_<?php echo $count; ?>"><span class="fa fa-eye"></span></a>
                                         </td>
                                     </tr>
                                                 
@@ -182,7 +181,7 @@
                                                                 <th class="lang" key="Profit"></th>
                                                                 <th class="lang" key="T_Sales"></th>
                                                                 <th class="lang" key="Details"></th>
-                                                                <th class="lang print-display admin_authority" key="Operation"></th>
+                                                                <!-- <th class="lang print-display admin_authority" key="Operation"></th> -->
                       
                                                             </tr>
                                                         </thead>
@@ -217,8 +216,7 @@
                                                                 echo round(($fetch_004["sale_rate"]) * $fetch_004["amount"],2); ?></td>
                                                                
                                                                 <td><?php echo $fetch_004["details"]; ?></td>
-                                                                <td class="print-display admin_authority">
-                                                                <span class="fa fa-edit text text-success" id="btn_modal_2" class="btn btn-primary" onclick="set_child_row_data_edit_func(<?php echo $fetch_004['id']; ?>)" data-toggle="modal" data-target="#exampleModal_2"></span></td>
+                                                                
                                                             </tr>
 
                                                             <?php

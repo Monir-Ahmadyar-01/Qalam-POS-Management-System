@@ -32,6 +32,13 @@
     {
         text-align: center !important;
     }
+    
+        @media print{
+            .print-display{
+                display: none !important;
+            }
+        }
+    
 </style>
 </head>
 
@@ -58,7 +65,9 @@
                         <li class="breadcrumb-item active"> حساب  مشتری ها </li>
                     </ol>
                 </div>
-                <p class="page-title">صفحه حساب مشتری</pack>
+                <p class="page-title">صفحه حساب مشتری <span class="fa fa-print btn btn-success" style="cursor:pointer ;" onclick="window.print();"></span> </p>
+                
+
             </div>
             <!-- end page title -->
             <?php
@@ -85,7 +94,7 @@
                                         <th>بیلانس</th>
                                         <!-- <th>کمیشن</th> -->
                                         <th>تاریخ</th>
-                                        <th>عملیات</th>
+                                        <th class="print-display">عملیات</th>
                                     </tr>
                                 </thead>
 
@@ -135,7 +144,7 @@
                                             $date_sh =  gregorian_to_jalali($date_m[0],$date_m[1],$date_m[2],'/');
                                             echo $date_sh;?></td>
                                             
-                                            <td>
+                                            <td class="print-display">
                                                 <a href="customer_reciepts.php?customer_id=<?php echo $customer_id;  ?>&customer_account_id=<?php echo $row['id'];  ?>&customer_name=<?php echo $_GET['customer_name'];  ?>">
                                                     <i class="fa fa-edit text text-success" style="cursor:pointer;"></i> 
                                                 </a> | 

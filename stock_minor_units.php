@@ -101,17 +101,27 @@
                                                 $total_alterant_amount = $total_alterant_amount + $row_2["total_alterant_amount"];
                                             }
                                         ?>
-                                        <tr>
+                                        
+                                        <?php
+                                            $due_amount = round(($total_purchased_amount - $total_sold_amount - $total_alterant_amount),2);
+                                            if ($due_amount <= $row["less_then"]) {
+                                                echo "<tr class='bg bg-danger text text-white'>";
+                                            }
+                                            else
+                                            {
+                                                echo "<tr>";
+                                            }
+                                        ?>
                                             <td><?php echo $count; ?></td>
                                             <td><?php echo $row["barcode"]; ?></td>
                                             <td><?php echo $row["item_name"]; ?></td>
                                             <td><?php echo $row["major_unit"]; ?></td>
                                             <td><?php echo $row["minor_unit"]; ?></td>
-                                            <td class="text text-primary"><?php echo round($total_purchased_amount,2) .' '. $row["minor_unit"]; ?></td>
-                                            <td class="text text-success"><?php echo round($total_sold_amount,2) .' '. $row["minor_unit"]; ?></td>
+                                            <td ><?php echo round($total_purchased_amount,2) .' '. $row["minor_unit"]; ?></td>
+                                            <td ><?php echo round($total_sold_amount,2) .' '. $row["minor_unit"]; ?></td>
 
-                                            <td class="text text-success"><?php echo round($total_alterant_amount,2) .' '. $row["minor_unit"]; ?></td>
-                                            <td class="text text-danger"><?php echo round(($total_purchased_amount - $total_sold_amount - $total_alterant_amount),2) .' '. $row["minor_unit"]; ?></td>
+                                            <td ><?php echo round($total_alterant_amount,2) .' '. $row["minor_unit"]; ?></td>
+                                            <td><?php echo round(($total_purchased_amount - $total_sold_amount - $total_alterant_amount),2) .' '. $row["minor_unit"]; ?></td>
                                         
                                             
                                           
@@ -136,6 +146,7 @@
                                                             <tr>
                                                                 <th>شماره</th>
                                                                 <th>تاریخ خرید</th>
+                                                                <th>تاریخ انقضاء</th>
                                                                 <th> واحد اصلی</th>
                                                                 <th>واحد فرعی</th>
                                                                 <th>مقدار خرید شده</th>
@@ -156,6 +167,7 @@
                                                             <tr>
                                                                 <td><?php echo $count_2; ?></td>
                                                                 <td><?php echo $fetch_004["purchase_date"]; ?></td>
+                                                                <td><?php echo $fetch_004["expiration_date"]; ?></td>
                                                                 <td><?php echo $row["major_unit"]; ?></td>
                                                                 <td><?php echo $row["minor_unit"]; ?></td>
                                                                 <td><?php echo round($fetch_004["amount"],2); ?></td>

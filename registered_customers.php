@@ -65,6 +65,7 @@
                                     <tr>
                                         <th>شماره</th>
                                         <th>نام مکمل</th>
+                                        <th>ولایت</th>
                                         <th>شماره تماس</th>
                                         <th>آدرس</th>
                                         <th>تاریخ</th>
@@ -75,13 +76,14 @@
                                 <tbody>
                                     <?php
                                         $count = 1;
-                                        $sql_query_001 = mysqli_query($connection,"SELECT * FROM `customers`");
+                                        $sql_query_001 = mysqli_query($connection,"SELECT customers.*,provinces.name as province_name FROM `customers` LEFT JOIN provinces ON provinces.id=customers.province_id");
                                         while ($row = mysqli_fetch_assoc($sql_query_001))
                                         {
                                         ?>
                                         <tr>
                                             <td><?php echo $count; ?></td>
                                             <td><?php echo $row["full_name"]; ?></td>
+                                            <td><?php echo $row["province_name"]; ?></td>
                                             <td><?php echo $row["phone_number"]; ?></td>
                                             <td><?php echo $row["address"]; ?></td>
                                             <td><?php
@@ -94,7 +96,7 @@
                                                 <i class="mdi mdi-delete-circle text text-danger" onclick="delete_func(<?php echo $row['id']; ?>)" title="حذف" style="cursor:pointer;"></i> | 
                                                 <a href="register_user.php?edit_id=<?php echo $row['id']; ?>">
                                                     <i style="cursor:pointer;" class="mdi mdi-file-document-edit text text-primary"></i>
-                                                </a>  
+                                                </a>
                                             </td>
                                         </tr>
                                         <?php

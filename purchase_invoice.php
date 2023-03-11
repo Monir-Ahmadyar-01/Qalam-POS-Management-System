@@ -114,10 +114,11 @@
                             <br>
                             <table class="table table-bordered table-sm ">
                                 <colgroup>
-                                    <col style="width:30%;">
+                                    <col style="width:20%;">
                                     <col style="width:20%;">
                                     <col style="width:20%;">
                                     <col style="width:10%;">
+                                    <col style="width:20%;">
                                     <col style="width:20%;">
                                 </colgroup>
 
@@ -169,6 +170,14 @@
                                         <label for="rate" class="col-form-label">آپلود فایل</label>
                                         <span class="text-danger">*</span>
                                         <input type="file" class="form-control border border-dark" name="attached_file" id="attached_file"  >
+                                    </td>
+                                    <td class="print-display">
+                                        <label for="rate" class="col-form-label">وضعیت خرید</label>
+                                        <span class="text-danger">*</span>
+                                        <select id="purchase_status" name="purchase_status" class="form-control">
+                                            <option selected value="arrived">رسیده</option>
+                                            <option value="OnTheWay">در راه</option>
+                                        </select>
                                     </td>
                                 </tr>
                                 <!-- <tr>
@@ -252,6 +261,7 @@
                                                 <th style="width: 10%" class="text-right">قیمت خرید | 1</th>
                                                 <th style="width: 10%" class="text-right">قیمت فروش | 1</th>
                                                 <th style="width: 10%" class="text-right">مجموع</th>
+                                                <th style="width: 10%" class="text-right">تاریخ انقضاء</th>
                                                 <th style="width: 5%" class="text-right print-display">عمل</th>
                                             </tr>
                                         </thead>
@@ -451,24 +461,6 @@
                     row +=
                         "<td><input type='text' class='form-control product_quantity'  name='product_quantity[]' id='product_quantity_" +
                         count_2 + "'  value='1' /></td>";
-                    // row +=
-                    //     "<td><input type='text' class='form-control vagon_weight' name='vagon_weight[]' id='vagon_weight_" +
-                    //     count_2 + "'  value='0' /></td>";
-                    // row +=
-                    //     "<td><span class='fa fa-plus text text-success' onclick='function_add_vagon("+ count_2 +")'><textarea class='form-control vagon_number' readonly  name='vagon_number[]' id='vagon_number_" +
-                    //     count_2 + "'  ></textarea></td>";
-                    // row +=
-                    //     "<td><span class='fa fa-plus text text-success' onclick='function_add_vagon("+ count_2 +")'></span><table class='m-0'><tbody id='vagon_numbers_tbody_" +
-                    //     count_2 + "'></tbody></table><input type='hidden' name='vagon_numbers_inputs[]'  id='vagon_numbers_input_" +
-                    //     count_2 + "'/></td>";
-                    // row +=
-                    //     "<td><input type='text' class='form-control office_expense'  name='office_expense[]' id='office_expense_" +
-                    //     count_2 + "'  value='0' /></td>";
-
-                    // row +=
-                    //     "<td><input type='text' class='form-control commision_expense'  name='commision_expense[]' id='commision_expense_" +
-                    //     count_2 + "'  value='0' /></td>";
-                    
                     row +=
                         "<td><input type='text' class='form-control purchase_price' id='purchase_price_" +
                         count_2 + "' name='purchase_price[]' value='0' /></td>";
@@ -480,6 +472,12 @@
                     row +=
                         "<td><input type='text' class='form-control row_total' readonly name='row_total[]' id='row_total_" +
                         count_2 + "' value='0' /></td>";
+
+                    row +=
+                        "<td><input type='date' class='form-control expiration_date' id='expiration_date_" +
+                        count_2 + "' name='expiration_date[]'  /></td>";
+                    
+                    
                     
                     row +=
                         "<td class='text-center print-display'><span class='fa fa-trash text text-danger delete_btn' id='" +

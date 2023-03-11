@@ -89,7 +89,7 @@
                                     <span class="text-danger">*</span>
                                     <input type="text" class="form-control border border-dark" data-toggle="input-mask" name="amount" oninvalid="this.setCustomValidity('این بخش الزامی میباشد')" oninput="this.setCustomValidity('')" required id="amount" placeholder="بنویسید .. ">
                                 </div>
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-2">
                                     <label for="major_unit_id" class="col-form-label">واحد اصلی</label>
                                     <span class="text-danger">*</span>
                                     <select class="form-control js-example-basic-single"  onchange='load_minor_units();'  id="major_unit_id" name="major_unit_id">
@@ -107,7 +107,7 @@
                                         ?>
                                     </select>                                 
                                 </div>
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-2">
                                     <label for="add_minor_unit_id" class="col-form-label">واحد فرعی</label>
                                     <span class="text-danger">*</span>
                                     <select class="form-control js-example-basic-single"  id="add_minor_unit_id" name="add_minor_unit_id">
@@ -118,6 +118,12 @@
                                     <label for="barcode" class="col-form-label"> بارکد</label>
                                     <span class="text-danger">*</span>
                                     <input type="text" class="form-control border border-dark" data-toggle="input-mask" name="barcode" oninvalid="this.setCustomValidity('این بخش الزامی میباشد')" oninput="this.setCustomValidity('')" required id="good_name" placeholder="بنویسید .. ">
+
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="less_then" class="col-form-label"> کمترین مقدار برای هشدار</label>
+                                    <span class="text-danger">*</span>
+                                    <input type="number"  steps="0.01" class="form-control border border-dark" data-toggle="input-mask" name="less_then" oninvalid="this.setCustomValidity('این بخش الزامی میباشد')" oninput="this.setCustomValidity('')" required id="less_then" placeholder="بنویسید .. ">
 
                                 </div>
                                 
