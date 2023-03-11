@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 05, 2022 at 03:43 PM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 7.4.28
+-- Generation Time: Mar 11, 2023 at 12:05 PM
+-- Server version: 10.1.24-MariaDB
+-- PHP Version: 7.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `qalam_mis`
+-- Database: `qalam_mis_dental_version`
 --
 
 -- --------------------------------------------------------
@@ -100,6 +101,7 @@ INSERT INTO `currencies` (`id`, `name`, `base`) VALUES
 CREATE TABLE `customers` (
   `id` int(11) NOT NULL,
   `full_name` varchar(150) COLLATE utf8mb4_persian_ci NOT NULL,
+  `province_id` int(11) NOT NULL,
   `phone_number` varchar(20) COLLATE utf8mb4_persian_ci NOT NULL,
   `address` text COLLATE utf8mb4_persian_ci NOT NULL,
   `date` date NOT NULL
@@ -186,6 +188,57 @@ CREATE TABLE `orders` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `provinces`
+--
+
+CREATE TABLE `provinces` (
+  `id` int(11) NOT NULL,
+  `name` varchar(150) COLLATE utf8mb4_persian_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
+
+--
+-- Dumping data for table `provinces`
+--
+
+INSERT INTO `provinces` (`id`, `name`) VALUES
+(1, 'بدخشان'),
+(2, 'بادغیس'),
+(3, 'بغلان'),
+(4, 'بلخ'),
+(5, 'بامیان'),
+(6, 'دایکندی'),
+(7, 'فراه'),
+(8, 'فاریاب'),
+(9, ' غزنی'),
+(11, ' غور'),
+(12, 'هلمند'),
+(13, 'هرات'),
+(14, 'جوزجان'),
+(15, 'کابل'),
+(16, 'کندهار'),
+(17, 'کاپیسا'),
+(18, 'خوست'),
+(19, 'کنر'),
+(20, 'کندز'),
+(21, 'لغمان'),
+(22, 'لوگر'),
+(23, 'ننگرهار'),
+(24, 'نیمروز'),
+(25, 'نورستان'),
+(26, 'ارزگان'),
+(27, 'پکتیا'),
+(28, 'پکتیکا'),
+(29, 'پنجشیر'),
+(30, 'پروان'),
+(31, 'سمنگان'),
+(32, 'سرپل'),
+(33, 'تخار'),
+(34, 'وردک'),
+(35, 'زابل');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `purchase_major`
 --
 
@@ -197,7 +250,8 @@ CREATE TABLE `purchase_major` (
   `date` date NOT NULL,
   `file` varchar(150) COLLATE utf8mb4_persian_ci NOT NULL,
   `party_number` text COLLATE utf8mb4_persian_ci NOT NULL,
-  `alterant` int(10) DEFAULT NULL
+  `alterant` int(10) DEFAULT NULL,
+  `purchase_status` varchar(30) COLLATE utf8mb4_persian_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
 
 -- --------------------------------------------------------
@@ -212,11 +266,13 @@ CREATE TABLE `purchase_minor` (
   `item_id_stock_major` int(50) NOT NULL,
   `amount` float NOT NULL,
   `purchase_price` float NOT NULL,
+  `sale_price` float NOT NULL,
   `vagon_quantity` float NOT NULL,
   `per_vagon_weight` float NOT NULL,
   `vagon_number` varchar(100) COLLATE utf8mb4_persian_ci NOT NULL,
   `office_expense` float NOT NULL,
-  `commision_expense` float NOT NULL
+  `commision_expense` float NOT NULL,
+  `expiration_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
 
 -- --------------------------------------------------------
@@ -334,7 +390,8 @@ CREATE TABLE `stock_major` (
   `amount` float NOT NULL,
   `unit_id` int(50) NOT NULL,
   `minor_unit_id` int(50) NOT NULL,
-  `barcode` varchar(100) COLLATE utf8mb4_persian_ci NOT NULL
+  `barcode` varchar(100) COLLATE utf8mb4_persian_ci NOT NULL,
+  `less_then` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
 
 -- --------------------------------------------------------
@@ -393,6 +450,13 @@ CREATE TABLE `unit_major` (
   `unit_name` varchar(150) COLLATE utf8mb4_persian_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
 
+--
+-- Dumping data for table `unit_major`
+--
+
+INSERT INTO `unit_major` (`id`, `unit_name`) VALUES
+(1, 'دانه');
+
 -- --------------------------------------------------------
 
 --
@@ -406,6 +470,13 @@ CREATE TABLE `unit_minor` (
   `pack_quantity` float NOT NULL,
   `major_factor` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
+
+--
+-- Dumping data for table `unit_minor`
+--
+
+INSERT INTO `unit_minor` (`id`, `unit_major_id`, `unit_name`, `pack_quantity`, `major_factor`) VALUES
+(1, 1, 'دانه', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -461,7 +532,8 @@ ALTER TABLE `currencies`
 -- Indexes for table `customers`
 --
 ALTER TABLE `customers`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `province_id_1` (`province_id`);
 
 --
 -- Indexes for table `customer_billance`
@@ -499,6 +571,12 @@ ALTER TABLE `losses`
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
   ADD KEY `to_currency_id_ww` (`currency_id`);
+
+--
+-- Indexes for table `provinces`
+--
+ALTER TABLE `provinces`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `purchase_major`
@@ -624,154 +702,140 @@ ALTER TABLE `user_account`
 --
 ALTER TABLE `alterant`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `commissions`
 --
 ALTER TABLE `commissions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `commission_takers`
 --
 ALTER TABLE `commission_takers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `currencies`
 --
 ALTER TABLE `currencies`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `customer_billance`
 --
 ALTER TABLE `customer_billance`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `expenses`
 --
 ALTER TABLE `expenses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `expenses_categories`
 --
 ALTER TABLE `expenses_categories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `losses`
 --
 ALTER TABLE `losses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
+--
+-- AUTO_INCREMENT for table `provinces`
+--
+ALTER TABLE `provinces`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT for table `purchase_major`
 --
 ALTER TABLE `purchase_major`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `purchase_minor`
 --
 ALTER TABLE `purchase_minor`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `reciepts`
 --
 ALTER TABLE `reciepts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `sale_major`
 --
 ALTER TABLE `sale_major`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `sale_minor`
 --
 ALTER TABLE `sale_minor`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `shafaf`
 --
 ALTER TABLE `shafaf`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `shafaf_transaction_type`
 --
 ALTER TABLE `shafaf_transaction_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `staff`
 --
 ALTER TABLE `staff`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `stock_major`
 --
 ALTER TABLE `stock_major`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `stock_minor`
 --
 ALTER TABLE `stock_minor`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `suppliers`
 --
 ALTER TABLE `suppliers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `supplier_billance`
 --
 ALTER TABLE `supplier_billance`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `unit_major`
 --
 ALTER TABLE `unit_major`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `unit_minor`
 --
 ALTER TABLE `unit_minor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `user_account`
 --
 ALTER TABLE `user_account`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `customers`
+--
+ALTER TABLE `customers`
+  ADD CONSTRAINT `province_id_1` FOREIGN KEY (`province_id`) REFERENCES `provinces` (`id`);
 
 --
 -- Constraints for table `customer_billance`

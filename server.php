@@ -171,7 +171,7 @@
     {
         $load_purchase_major_id_for_edit = $_POST["load_purchase_major_id_for_edit"];
 
-        $sql_query_001 = mysqli_query($connection,"SELECT id,supplier_id,party_number,date FROM `purchase_major` where id='$load_purchase_major_id_for_edit'");
+        $sql_query_001 = mysqli_query($connection,"SELECT purchase_status,id,supplier_id,party_number,date FROM `purchase_major` where id='$load_purchase_major_id_for_edit'");
 
         $sql_query_002 = mysqli_query($connection,"SELECT id,full_name,phone_number,date FROM `suppliers`");
         
@@ -413,6 +413,7 @@
     {
         $purchase_edit_bill_number = $_POST["purchase_edit_bill_number"];
         $purchase_edit_supplier_name = $_POST["purchase_edit_supplier_name"];   
+        $edit_purchase_status = $_POST["edit_purchase_status"];   
         $date_sh = explode("/",$_POST["edit_purchase_date"]);
         $edit_purchase_date =  jalali_to_gregorian($date_sh[0],$date_sh[1],$date_sh[2],'/'); 
         // $edit_party_number = $_POST["edit_party_number"];   
@@ -424,7 +425,7 @@
         
         if($picUpload == "")
         {
-            $sql_query_001 = mysqli_query($connection,"update purchase_major set supplier_id ='$purchase_edit_supplier_name',date='$edit_purchase_date'  where id='$purchase_edit_bill_number'");
+            $sql_query_001 = mysqli_query($connection,"update purchase_major set supplier_id ='$purchase_edit_supplier_name',purchase_status='$edit_purchase_status',date='$edit_purchase_date'  where id='$purchase_edit_bill_number'");
         }
         else
         {
@@ -433,7 +434,7 @@
             move_uploaded_file($picSource, $picTarget);
 
 
-            $sql_query_001 = mysqli_query($connection,"update purchase_major set supplier_id ='$purchase_edit_supplier_name',date='$edit_purchase_date',file='$picUpload'  where id='$purchase_edit_bill_number'");
+            $sql_query_001 = mysqli_query($connection,"update purchase_major set supplier_id ='$purchase_edit_supplier_name',date='$edit_purchase_date',purchase_status='$edit_purchase_status',file='$picUpload'  where id='$purchase_edit_bill_number'");
 
         }
 
@@ -769,8 +770,9 @@
         $major_unit_id = $_POST["major_unit_id"];
         $add_minor_unit_id = $_POST["add_minor_unit_id"];
         $barcode = $_POST["barcode"];
+        $less_then = $_POST["less_then"];
         
-        $sql_query_001 = mysqli_query($connection,"INSERT INTO `stock_major` (`id`, `item_id`, `amount`, `unit_id`, `minor_unit_id`,`barcode`) VALUES (NULL, '$add_exist_good_id', '$amount', '$major_unit_id', '$add_minor_unit_id','$barcode')");
+        $sql_query_001 = mysqli_query($connection,"INSERT INTO `stock_major` (`id`, `item_id`, `amount`, `unit_id`, `minor_unit_id`,`barcode`,`less_then`) VALUES (NULL, '$add_exist_good_id', '$amount', '$major_unit_id', '$add_minor_unit_id','$barcode','$less_then')");
         
         if ($sql_query_001)
         {
@@ -788,6 +790,7 @@
     if(isset($_POST["customer_full_name"]))
     {
         $customer_full_name = $_POST["customer_full_name"];
+        $customer_province = $_POST["customer_province"];
         $phone_number = $_POST["phone_number"];
         $address = $_POST["address"];
         $date = date("Y-m-d");
@@ -796,7 +799,7 @@
         
         if($edit == "")
         {
-            $sql_query_001 = mysqli_query($connection,"INSERT INTO `customers` (`id`, `full_name`, `phone_number`, `address`, `date`) VALUES (NULL, '$customer_full_name', '$phone_number', '$address', '$date')");
+            $sql_query_001 = mysqli_query($connection,"INSERT INTO `customers` (`id`, `full_name`,`province_id`, `phone_number`, `address`, `date`) VALUES (NULL, '$customer_full_name','$customer_province', '$phone_number', '$address', '$date')");
 
             if ($sql_query_001)
             {
@@ -809,7 +812,7 @@
         }
         else
         {
-            $sql_query_001 = mysqli_query($connection,"UPDATE customers set full_name='$customer_full_name',phone_number='$phone_number',address='$address' WHERE id='$edit'");
+            $sql_query_001 = mysqli_query($connection,"UPDATE customers set full_name='$customer_full_name',customer_id='$customer_province',phone_number='$phone_number',address='$address' WHERE id='$edit'");
             if ($sql_query_001)
             {
                 echo "success - registered_customers.php";
@@ -1216,6 +1219,7 @@
     {
         
         $currency = $_POST["currency"];
+        $purchase_status = $_POST["purchase_status"];
         $rate = $_POST["rate"];
         $total_price_final = $_POST["total_price_final"];
         $total_reciept = $_POST["total_reciept"];
@@ -1235,7 +1239,7 @@
         move_uploaded_file($picSource, $picTarget);
      
         
-            $sql_query_001 = mysqli_query($connection,"INSERT INTO `purchase_major` (`id`, `supplier_id`, `reciept`, `currency_id`, `date`,`file`,`party_number`) VALUES (NULL, '$supplier_major_id', '$total_reciept', '$currency', '$purchase_date', '$picUpload','')");
+            $sql_query_001 = mysqli_query($connection,"INSERT INTO `purchase_major` (`id`, `supplier_id`, `reciept`, `currency_id`, `date`,`file`,`party_number`,`purchase_status`) VALUES (NULL, '$supplier_major_id', '$total_reciept', '$currency', '$purchase_date', '$picUpload','','$purchase_status')");
        
 
         if($sql_query_001)
@@ -1251,6 +1255,8 @@
             // $vagon_weight_arr = $_POST["vagon_weight"];
             $purchase_price_arr = $_POST["purchase_price"];
             $sale_price_arr = $_POST["sale_price"];
+            $expiration_date_arr = $_POST["expiration_date"];
+            
             // $commision_expense_arr = $_POST["commision_expense"];
             // $office_expense_arr = $_POST["office_expense"];
             // $vagon_numbers_inputs_arr = $_POST["vagon_numbers_inputs"]; 
@@ -1290,6 +1296,7 @@
 
                 $purchase_price = $purchase_price_arr[$i];
                 $sale_price = $sale_price_arr[$i];
+                $expiration_date = $expiration_date_arr[$i];
                 // $commision_expense = $commision_expense_arr[$i];
 
                 // $office_expense = $office_expense_arr[$i];
@@ -1297,7 +1304,7 @@
                 // $vagon_numbers_input = $vagon_numbers_inputs_arr[$i];
 
                 
-                $sql_query_002 = mysqli_query($connection,"INSERT INTO `purchase_minor` (`id`, `purchase_major_id`, `item_id_stock_major`, `amount`, `purchase_price`,`sale_price`, `vagon_quantity`, `per_vagon_weight`,`vagon_number`, `office_expense`, `commision_expense`) VALUES (NULL, '$purchase_major_id', '$add_purchase_major_stock_id', '$amount', '$purchase_price','$sale_price', '', '','', '', '')");
+                $sql_query_002 = mysqli_query($connection,"INSERT INTO `purchase_minor` (`id`, `purchase_major_id`, `item_id_stock_major`, `amount`, `purchase_price`,`sale_price`, `vagon_quantity`, `per_vagon_weight`,`vagon_number`, `office_expense`, `commision_expense`,`expiration_date`) VALUES (NULL, '$purchase_major_id', '$add_purchase_major_stock_id', '$amount', '$purchase_price','$sale_price', '', '','', '', '','$expiration_date')");
 
                 // $commission_amount = $amount * $commision_expense;
                 // $commission_text = 'کمیشم بابت پارتی نمبر ' . $party_number;

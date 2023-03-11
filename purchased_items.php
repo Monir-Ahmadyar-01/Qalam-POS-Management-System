@@ -99,6 +99,7 @@
                                     <!-- <th class="lang" key="total_office_expenses"></th>
                                     <th class="lang" key="total_commission_expenses"></th> -->
                                     <th class="lang" key="Final_Amount"></th>
+                                    <th class="lang" key="purchase_status"></th>
                                     <!-- <th class="lang" key="Total_Receipts"></th> -->
                                     <!-- <th class="lang" key="Total_Remain"></th> -->
                                     <th class="lang print-display" key="Operation"></th>
@@ -118,11 +119,11 @@
                                     if(isset($_POST["search_button"]))
                                     {
                                         $search_input = $_POST["search_input"];
-                                        $sql_query_001 = mysqli_query($connection,"select `qalam_mis`.`purchase_major`.`id` AS `bill_number`,`qalam_mis`.`purchase_major`.`file` AS `file`,`qalam_mis`.`purchase_major`.`party_number` AS `party_number`,`qalam_mis`.`suppliers`.`full_name` AS `supplier_name`,`qalam_mis`.`currencies`.`name` AS `currency_name`,`qalam_mis`.`purchase_major`.`date` AS `purchase_date`,`qalam_mis`.`purchase_major`.`reciept` AS `total_reciept`,(select sum(`qalam_mis`.`purchase_minor`.`purchase_price` * `qalam_mis`.`purchase_minor`.`amount`) from `qalam_mis`.`purchase_minor` where `qalam_mis`.`purchase_minor`.`purchase_major_id` = `qalam_mis`.`purchase_major`.`id`) AS `total_purchased_price`,(select sum(`qalam_mis`.`purchase_minor`.`commision_expense` * `qalam_mis`.`purchase_minor`.`amount`) from `qalam_mis`.`purchase_minor` where `qalam_mis`.`purchase_minor`.`purchase_major_id` = `qalam_mis`.`purchase_major`.`id`) AS `total_commission_price`,(select sum(`qalam_mis`.`purchase_minor`.`office_expense` * `qalam_mis`.`purchase_minor`.`amount`) from `qalam_mis`.`purchase_minor` where `qalam_mis`.`purchase_minor`.`purchase_major_id` = `qalam_mis`.`purchase_major`.`id`) AS `total_office_price`,(select sum(`qalam_mis`.`reciepts`.`amount` / `qalam_mis`.`reciepts`.`rate`) from `qalam_mis`.`reciepts` where `qalam_mis`.`reciepts`.`purchase_id` = `qalam_mis`.`purchase_major`.`id`) AS `total_reciepts_price` from ((`qalam_mis`.`purchase_major` left join `qalam_mis`.`currencies` on(`qalam_mis`.`currencies`.`id` = `qalam_mis`.`purchase_major`.`currency_id`)) left join `qalam_mis`.`suppliers` on(`qalam_mis`.`suppliers`.`id` = `qalam_mis`.`purchase_major`.`supplier_id`)) where qalam_mis.purchase_major.alterant IS NULL and (suppliers.full_name like '%$search_input%' or purchase_major.id like '$search_input')  order by `qalam_mis`.`purchase_major`.`id` desc");
+                                        $sql_query_001 = mysqli_query($connection,"select `qalam_mis_dental_version`.`purchase_major`.`purchase_status`,`qalam_mis_dental_version`.`purchase_major`.`id` AS `bill_number`,`qalam_mis_dental_version`.`purchase_major`.`file` AS `file`,`qalam_mis_dental_version`.`purchase_major`.`party_number` AS `party_number`,`qalam_mis_dental_version`.`suppliers`.`full_name` AS `supplier_name`,`qalam_mis_dental_version`.`currencies`.`name` AS `currency_name`,`qalam_mis_dental_version`.`purchase_major`.`date` AS `purchase_date`,`qalam_mis_dental_version`.`purchase_major`.`reciept` AS `total_reciept`,(select sum(`qalam_mis_dental_version`.`purchase_minor`.`purchase_price` * `qalam_mis_dental_version`.`purchase_minor`.`amount`) from `qalam_mis_dental_version`.`purchase_minor` where `qalam_mis_dental_version`.`purchase_minor`.`purchase_major_id` = `qalam_mis_dental_version`.`purchase_major`.`id`) AS `total_purchased_price`,(select sum(`qalam_mis_dental_version`.`purchase_minor`.`commision_expense` * `qalam_mis_dental_version`.`purchase_minor`.`amount`) from `qalam_mis_dental_version`.`purchase_minor` where `qalam_mis_dental_version`.`purchase_minor`.`purchase_major_id` = `qalam_mis_dental_version`.`purchase_major`.`id`) AS `total_commission_price`,(select sum(`qalam_mis_dental_version`.`purchase_minor`.`office_expense` * `qalam_mis_dental_version`.`purchase_minor`.`amount`) from `qalam_mis_dental_version`.`purchase_minor` where `qalam_mis_dental_version`.`purchase_minor`.`purchase_major_id` = `qalam_mis_dental_version`.`purchase_major`.`id`) AS `total_office_price`,(select sum(`qalam_mis_dental_version`.`reciepts`.`amount` / `qalam_mis_dental_version`.`reciepts`.`rate`) from `qalam_mis_dental_version`.`reciepts` where `qalam_mis_dental_version`.`reciepts`.`purchase_id` = `qalam_mis_dental_version`.`purchase_major`.`id`) AS `total_reciepts_price` from ((`qalam_mis_dental_version`.`purchase_major` left join `qalam_mis_dental_version`.`currencies` on(`qalam_mis_dental_version`.`currencies`.`id` = `qalam_mis_dental_version`.`purchase_major`.`currency_id`)) left join `qalam_mis_dental_version`.`suppliers` on(`qalam_mis_dental_version`.`suppliers`.`id` = `qalam_mis_dental_version`.`purchase_major`.`supplier_id`)) where qalam_mis_dental_version.purchase_major.alterant IS NULL and (suppliers.full_name like '%$search_input%' or purchase_major.id like '$search_input')  order by `qalam_mis_dental_version`.`purchase_major`.`id` desc");
                                     }
                                     else
                                     {
-                                        $sql_query_001 = mysqli_query($connection,"select `qalam_mis`.`purchase_major`.`id` AS `bill_number`,`qalam_mis`.`purchase_major`.`file` AS `file`,`qalam_mis`.`purchase_major`.`party_number` AS `party_number`,`qalam_mis`.`suppliers`.`full_name` AS `supplier_name`,`qalam_mis`.`currencies`.`name` AS `currency_name`,`qalam_mis`.`purchase_major`.`date` AS `purchase_date`,`qalam_mis`.`purchase_major`.`reciept` AS `total_reciept`,(select sum(`qalam_mis`.`purchase_minor`.`purchase_price` * `qalam_mis`.`purchase_minor`.`amount`) from `qalam_mis`.`purchase_minor` where `qalam_mis`.`purchase_minor`.`purchase_major_id` = `qalam_mis`.`purchase_major`.`id`) AS `total_purchased_price`,(select sum(`qalam_mis`.`purchase_minor`.`commision_expense` * `qalam_mis`.`purchase_minor`.`amount`) from `qalam_mis`.`purchase_minor` where `qalam_mis`.`purchase_minor`.`purchase_major_id` = `qalam_mis`.`purchase_major`.`id`) AS `total_commission_price`,(select sum(`qalam_mis`.`purchase_minor`.`office_expense` * `qalam_mis`.`purchase_minor`.`amount`) from `qalam_mis`.`purchase_minor` where `qalam_mis`.`purchase_minor`.`purchase_major_id` = `qalam_mis`.`purchase_major`.`id`) AS `total_office_price`,(select sum(`qalam_mis`.`reciepts`.`amount` / `qalam_mis`.`reciepts`.`rate`) from `qalam_mis`.`reciepts` where `qalam_mis`.`reciepts`.`purchase_id` = `qalam_mis`.`purchase_major`.`id`) AS `total_reciepts_price` from ((`qalam_mis`.`purchase_major` left join `qalam_mis`.`currencies` on(`qalam_mis`.`currencies`.`id` = `qalam_mis`.`purchase_major`.`currency_id`)) left join `qalam_mis`.`suppliers` on(`qalam_mis`.`suppliers`.`id` = `qalam_mis`.`purchase_major`.`supplier_id`)) where qalam_mis.purchase_major.alterant IS NULL  order by `qalam_mis`.`purchase_major`.`id` desc");
+                                        $sql_query_001 = mysqli_query($connection,"select `qalam_mis_dental_version`.`purchase_major`.`purchase_status`,`qalam_mis_dental_version`.`purchase_major`.`id` AS `bill_number`,`qalam_mis_dental_version`.`purchase_major`.`file` AS `file`,`qalam_mis_dental_version`.`purchase_major`.`party_number` AS `party_number`,`qalam_mis_dental_version`.`suppliers`.`full_name` AS `supplier_name`,`qalam_mis_dental_version`.`currencies`.`name` AS `currency_name`,`qalam_mis_dental_version`.`purchase_major`.`date` AS `purchase_date`,`qalam_mis_dental_version`.`purchase_major`.`reciept` AS `total_reciept`,(select sum(`qalam_mis_dental_version`.`purchase_minor`.`purchase_price` * `qalam_mis_dental_version`.`purchase_minor`.`amount`) from `qalam_mis_dental_version`.`purchase_minor` where `qalam_mis_dental_version`.`purchase_minor`.`purchase_major_id` = `qalam_mis_dental_version`.`purchase_major`.`id`) AS `total_purchased_price`,(select sum(`qalam_mis_dental_version`.`purchase_minor`.`commision_expense` * `qalam_mis_dental_version`.`purchase_minor`.`amount`) from `qalam_mis_dental_version`.`purchase_minor` where `qalam_mis_dental_version`.`purchase_minor`.`purchase_major_id` = `qalam_mis_dental_version`.`purchase_major`.`id`) AS `total_commission_price`,(select sum(`qalam_mis_dental_version`.`purchase_minor`.`office_expense` * `qalam_mis_dental_version`.`purchase_minor`.`amount`) from `qalam_mis_dental_version`.`purchase_minor` where `qalam_mis_dental_version`.`purchase_minor`.`purchase_major_id` = `qalam_mis_dental_version`.`purchase_major`.`id`) AS `total_office_price`,(select sum(`qalam_mis_dental_version`.`reciepts`.`amount` / `qalam_mis_dental_version`.`reciepts`.`rate`) from `qalam_mis_dental_version`.`reciepts` where `qalam_mis_dental_version`.`reciepts`.`purchase_id` = `qalam_mis_dental_version`.`purchase_major`.`id`) AS `total_reciepts_price` from ((`qalam_mis_dental_version`.`purchase_major` left join `qalam_mis_dental_version`.`currencies` on(`qalam_mis_dental_version`.`currencies`.`id` = `qalam_mis_dental_version`.`purchase_major`.`currency_id`)) left join `qalam_mis_dental_version`.`suppliers` on(`qalam_mis_dental_version`.`suppliers`.`id` = `qalam_mis_dental_version`.`purchase_major`.`supplier_id`)) where qalam_mis_dental_version.purchase_major.alterant IS NULL  order by `qalam_mis_dental_version`.`purchase_major`.`id` desc");
                                     }
 
                                     
@@ -141,10 +142,20 @@
                                         $date_sh =  gregorian_to_jalali($date_m[0],$date_m[1],$date_m[2],'/');
                                         echo $date_sh;?></td>
                                         <!-- <th><?php echo $row["party_number"]; ?></th> -->
+                                        
                                         <th><?php echo round($row["total_purchased_price"],2); ?></th>
                                         <!-- <th><?php echo round($row["total_office_price"],2); ?></th>
                                         <th><?php echo round($row["total_commission_price"],2); ?></th> -->
                                         <th class="text text-success"><?php echo round($row["total_purchased_price"],2); ?></th>
+                                        <th><?php 
+                                        if ($row["purchase_status"] == "arrived") {
+                                            echo "رسیده";
+                                        }
+                                        else
+                                        {
+                                            echo "در راه";
+                                        }
+                                        ?></th>
                                         <!-- <th><?php echo round($row["total_reciepts_price"],2); ?></th> -->
                                         <!-- <th class="text text-danger"><?php echo round(($row["total_purchased_price"]) - round($row["total_reciepts_price"],2),2); ?></th> -->
                                       
@@ -174,14 +185,14 @@
                                                 
                                             
                                     <tr>
-                                        <td colspan="7">
+                                        <td colspan="8">
 
                                             <div id="collapse_<?php echo $count; ?>" class="collapse view_all" data-parent="#accordion">
                                                 <div class="card-body">
                                                     <table class="table table-bordered table-striped">
                                                         <thead>
                                                             <tr>
-                                                                <th colspan='8' class="lang text text-center" key="Purchase_Details"></th>
+                                                                <th colspan='9' class="lang text text-center" key="Purchase_Details"></th>
                                                             </tr>
                                                             <tr>
                                                                 <th class="lang" key="number"></th>
@@ -191,6 +202,7 @@
                                                                 <th class="lang" key="Purchase_Price_1"></th>
                                                                 <th class="lang" key="Sale_Price_1"></th>
                                                                 <th class="lang" key="Total"></th>
+                                                                <th class="lang" key="expiration_date"></th>
                                                                 <th class="lang admin_authority" key="Operation"></th>
                                                                 
                                                             </tr>
@@ -199,7 +211,7 @@
                                                             <?php
                                                                 $parent_id = $row["bill_number"];
                                                                 $count_2 = 1;
-                                                                $sql_query_004 = mysqli_query($connection,"select purchase_minor.vagon_number,purchase_minor.sale_price,`qalam_mis`.`purchase_major`.`id` AS `purchase_major_id`,`qalam_mis`.`purchase_minor`.`id` AS `purchase_minor_id`,(select `qalam_mis`.`unit_minor`.`unit_name` from `qalam_mis`.`unit_minor` where `qalam_mis`.`unit_minor`.`id` = `qalam_mis`.`purchase_minor`.`item_id_stock_major`) AS `minor_unit_name`,(select `qalam_mis`.`stock_minor`.`item_name` from `qalam_mis`.`stock_minor` where `qalam_mis`.`stock_minor`.`id` = (select `qalam_mis`.`stock_major`.`item_id` from `qalam_mis`.`stock_major` where `qalam_mis`.`stock_major`.`id` = `qalam_mis`.`purchase_minor`.`item_id_stock_major`)) AS `item_name`,`qalam_mis`.`purchase_minor`.`amount` AS `amount`,`qalam_mis`.`purchase_minor`.`vagon_quantity` AS `vagon_quantity`,`qalam_mis`.`purchase_minor`.`per_vagon_weight` AS `vagon_weight`,`qalam_mis`.`purchase_minor`.`purchase_price` AS `purchase_price`,`qalam_mis`.`purchase_minor`.`office_expense` AS `office_expense`,`qalam_mis`.`purchase_minor`.`commision_expense` AS `commission_expense` from (`qalam_mis`.`purchase_minor` left join `qalam_mis`.`purchase_major` on(`qalam_mis`.`purchase_minor`.`purchase_major_id` = `qalam_mis`.`purchase_major`.`id`)) where `qalam_mis`.`purchase_minor`.`purchase_major_id` = `qalam_mis`.`purchase_major`.`id`  and purchase_major_id='$parent_id'");
+                                                                $sql_query_004 = mysqli_query($connection,"select purchase_minor.expiration_date,purchase_minor.sale_price,`qalam_mis_dental_version`.`purchase_major`.`id` AS `purchase_major_id`,`qalam_mis_dental_version`.`purchase_minor`.`id` AS `purchase_minor_id`,(select `qalam_mis_dental_version`.`unit_minor`.`unit_name` from `qalam_mis_dental_version`.`unit_minor` where `qalam_mis_dental_version`.`unit_minor`.`id` = `qalam_mis_dental_version`.`purchase_minor`.`item_id_stock_major`) AS `minor_unit_name`,(select `qalam_mis_dental_version`.`stock_minor`.`item_name` from `qalam_mis_dental_version`.`stock_minor` where `qalam_mis_dental_version`.`stock_minor`.`id` = (select `qalam_mis_dental_version`.`stock_major`.`item_id` from `qalam_mis_dental_version`.`stock_major` where `qalam_mis_dental_version`.`stock_major`.`id` = `qalam_mis_dental_version`.`purchase_minor`.`item_id_stock_major`)) AS `item_name`,`qalam_mis_dental_version`.`purchase_minor`.`amount` AS `amount`,`qalam_mis_dental_version`.`purchase_minor`.`vagon_quantity` AS `vagon_quantity`,`qalam_mis_dental_version`.`purchase_minor`.`per_vagon_weight` AS `vagon_weight`,`qalam_mis_dental_version`.`purchase_minor`.`purchase_price` AS `purchase_price`,`qalam_mis_dental_version`.`purchase_minor`.`office_expense` AS `office_expense`,`qalam_mis_dental_version`.`purchase_minor`.`commision_expense` AS `commission_expense` from (`qalam_mis_dental_version`.`purchase_minor` left join `qalam_mis_dental_version`.`purchase_major` on(`qalam_mis_dental_version`.`purchase_minor`.`purchase_major_id` = `qalam_mis_dental_version`.`purchase_major`.`id`)) where `qalam_mis_dental_version`.`purchase_minor`.`purchase_major_id` = `qalam_mis_dental_version`.`purchase_major`.`id`  and purchase_major_id='$parent_id'");
 
                                                                 while ($fetch_004 = mysqli_fetch_assoc($sql_query_004))
                                                                 {
@@ -222,6 +234,7 @@
                                                                 $total_purchase_amount = $total_purchase_amount + (($fetch_004["purchase_price"]) * $fetch_004["amount"]);
 
                                                                 echo round(($fetch_004["purchase_price"]) * $fetch_004["amount"],2); ?></td>
+                                                                <td><?php echo $fetch_004["expiration_date"]; ?></td>
                                                                 <td class="admin_authority">
                                                                 <span class="fa fa-edit text text-success" id="btn_modal_2" class="btn btn-primary" onclick="set_child_row_data_edit_func(<?php echo $fetch_004['purchase_minor_id']; ?>)" data-toggle="modal"
         data-target="#exampleModal_2"></span>
@@ -253,7 +266,7 @@
                             <tfoot>
                                 <tr class="bg bg-primary text text-white">
 
-                                    <th  colspan="3" ><span class="lang" key="Total Quantity"></span> : <?php echo round($total_quantity,2); ?> </th>
+                                    <th  colspan="4" ><span class="lang" key="Total Quantity"></span> : <?php echo round($total_quantity,2); ?> </th>
                                     <th  colspan="4" ><span class="lang" key="Total Purchase Price"></span> : <?php echo round($total_purchase_amount,2); ?>   </th>
                                     <!-- <th  colspan="2" ><span class="lang" key="Total Office Expenses"></span> : <?php echo round($total_office_expenses,2); ?>   </th>
                                     <th  colspan="2" ><span class="lang" key="Total Commission Expenses"></span> : <?php echo round($total_commission_expenses,2); ?>   </th> -->
@@ -309,6 +322,16 @@
                                     <input type="file" class="form-control" id="edit_file" name="edit_file">
                                 </div>
                             </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                        <label for="edit_purchase_status" class="col-form-label">وضعیت خرید</label>
+                                        <select id="edit_purchase_status" name="edit_purchase_status" class="form-control">
+                                            <option selected value="arrived">رسیده</option>
+                                            <option value="OnTheWay">در راه</option>
+                                        </select>
+                                </div>
+                            </div>
+                           
                         </div>
                     
                 </div>
@@ -606,6 +629,7 @@ success: function(response_x1) {
     var responses_x1 = JSON.parse(response_x1);
 
     var purchase_id = responses_x1[0]['id'];
+    var purchase_status = responses_x1[0]['purchase_status'];
     var supplier_id = responses_x1[0]['supplier_id'];
     var party_number = responses_x1[0]['party_number'];
     var date = responses_x1[0]['date'];
@@ -625,11 +649,24 @@ success: function(response_x1) {
         }
         
     }
+
+    var StatusOptions = '';
+    if(purchase_status == "arrived")
+    {
+        StatusOptions += '<option selected value="arrived">رسیده</option>';
+        StatusOptions += '<option value="OnTheWay">در راه</option>';
+    }
+    else
+    {
+        StatusOptions += '<option  value="arrived">رسیده</option>';
+        StatusOptions += '<option selected value="OnTheWay">در راه</option>';
+    }
     
         
     $("#purchase_edit_bill_number").val(purchase_id);
     $("#purchase_edit_supplier_name").html(options);
     $("#edit_purchase_date").val(new Date(date).toLocaleDateString('fa-IR-u-nu-latn'));
+    $("#edit_purchase_status").html(StatusOptions);
 
 }
 });

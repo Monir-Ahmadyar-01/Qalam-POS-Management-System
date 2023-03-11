@@ -65,6 +65,7 @@
                                     <tr>
                                         <th>شماره</th>
                                         <th>نام مکمل</th>
+                                        <th>ولایت</th>
                                         <th>شماره تماس</th>
                                         <th>آدرس</th>
                                         <th>مجموع خرید</th>
@@ -77,7 +78,7 @@
                                     <?php
 
                                         $count = 1;
-                                        $sql_query_001 = mysqli_query($connection,"select `qalam_mis`.`customers`.`id` AS `id`,`qalam_mis`.`customers`.`full_name` AS `full_name`,`qalam_mis`.`customers`.`phone_number` AS `phone_number`,`qalam_mis`.`customers`.`address` AS `address`,`qalam_mis`.`customers`.`date` AS `date`,sum(`qalam_mis`.`sale_minor`.`sale_rate` * `qalam_mis`.`sale_minor`.`amount`) AS `total_sale_price` from ((`qalam_mis`.`customers` left join `qalam_mis`.`sale_major` on(`qalam_mis`.`customers`.`id` = `qalam_mis`.`sale_major`.`customer_id`)) left join `qalam_mis`.`sale_minor` on(`qalam_mis`.`sale_minor`.`sale_major_id` = `qalam_mis`.`sale_major`.`id`)) group by `qalam_mis`.`customers`.`id`");
+                                        $sql_query_001 = mysqli_query($connection,"select `qalam_mis_dental_version`.`customers`.`id` AS `id`,`qalam_mis_dental_version`.`customers`.`full_name` AS `full_name`,`qalam_mis_dental_version`.`customers`.`phone_number` AS `phone_number`,`qalam_mis_dental_version`.`customers`.`address` AS `address`,`qalam_mis_dental_version`.`provinces`.`name` AS `province_name`,`qalam_mis_dental_version`.`customers`.`date` AS `date`,sum(`qalam_mis_dental_version`.`sale_minor`.`sale_rate` * `qalam_mis_dental_version`.`sale_minor`.`amount`) AS `total_sale_price` from ((`qalam_mis_dental_version`.`customers` left join `qalam_mis_dental_version`.`sale_major` on(`qalam_mis_dental_version`.`customers`.`id` = `qalam_mis_dental_version`.`sale_major`.`customer_id`)) left join `qalam_mis_dental_version`.`sale_minor` on(`qalam_mis_dental_version`.`sale_minor`.`sale_major_id` = `qalam_mis_dental_version`.`sale_major`.`id`)) LEFT JOIN provinces ON provinces.id = customers.province_id group by `qalam_mis_dental_version`.`customers`.`id`");
                                         while ($row = mysqli_fetch_assoc($sql_query_001))
                                         {   
                                             $customer_id = $row["id"];
@@ -91,6 +92,7 @@
                                         <tr>
                                             <td><?php echo $count; ?></td>
                                             <td><?php echo $row["full_name"]; ?>  </td>
+                                            <td><?php echo $row["province_name"]; ?>  </td>
                                             <td><?php echo $row["phone_number"]; ?></td>
                                             <td><?php echo $row["address"]; ?></td>
                                             <td class="text text-success"><?php echo round($row["total_sale_price"],2); ?></td>
@@ -106,7 +108,11 @@
                                                 }
                                                 ?> -->
 
-                                                | <a title="نمایش" href="customer_account_billance.php?customer_id=<?php echo $row['id']; ?>&customer_name=<?php echo $row["full_name"]; ?>"><span class="fa fa-eye text text-primary" ></span></a>
+                                                | <a title="نمایش" href="customer_account_billance.php?customer_id=<?php echo $row['id']; ?>&customer_name=<?php echo $row["full_name"]; ?>"><span class="fa fa-eye text text-primary" ></span></a>   
+                                                |   
+                                                <a href="customer_purchased_product_details.php?customer_id=<?php echo $row['id']; ?>&customer_name=<?php echo $row['full_name']; ?>" >
+                                                    <i style="cursor:pointer;" class="mdi mdi-account-card-details text text-success"></i>
+                                                </a>  
 
                                             </td>
                                             
