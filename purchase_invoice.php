@@ -208,7 +208,7 @@
 
                                                     <select id="supplier_major_id" name="supplier_major_id" class="select2 form-control">
                                                         <?php
-                                                                $sql_query_01 = mysqli_query($connection,"select * from suppliers");
+                                                                $sql_query_01 = mysqli_query($connection,"select * from suppliers where status=0");
                                                                 while ($row = mysqli_fetch_assoc($sql_query_01))
                                                                 {
                                                             ?>

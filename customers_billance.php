@@ -70,6 +70,7 @@
                                         <th>آدرس</th>
                                         <th>مجموع خرید</th>
                                         <th>پول موجود</th>
+                                        <th>حالت حساب </th>
                                         <th>عمل </th>
                                     </tr>
                                 </thead>
@@ -78,7 +79,7 @@
                                     <?php
 
                                         $count = 1;
-                                        $sql_query_001 = mysqli_query($connection,"select `qalam_mis_dental_version`.`customers`.`id` AS `id`,`qalam_mis_dental_version`.`customers`.`full_name` AS `full_name`,`qalam_mis_dental_version`.`customers`.`phone_number` AS `phone_number`,`qalam_mis_dental_version`.`customers`.`address` AS `address`,`qalam_mis_dental_version`.`provinces`.`name` AS `province_name`,`qalam_mis_dental_version`.`customers`.`date` AS `date`,sum(`qalam_mis_dental_version`.`sale_minor`.`sale_rate` * `qalam_mis_dental_version`.`sale_minor`.`amount`) AS `total_sale_price` from ((`qalam_mis_dental_version`.`customers` left join `qalam_mis_dental_version`.`sale_major` on(`qalam_mis_dental_version`.`customers`.`id` = `qalam_mis_dental_version`.`sale_major`.`customer_id`)) left join `qalam_mis_dental_version`.`sale_minor` on(`qalam_mis_dental_version`.`sale_minor`.`sale_major_id` = `qalam_mis_dental_version`.`sale_major`.`id`)) LEFT JOIN provinces ON provinces.id = customers.province_id group by `qalam_mis_dental_version`.`customers`.`id`");
+                                        $sql_query_001 = mysqli_query($connection,"select `qalam_mis_dental_version`.`customers`.`id` AS `id`,`qalam_mis_dental_version`.`customers`.`full_name` AS `full_name`,`qalam_mis_dental_version`.`customers`.`phone_number` AS `phone_number`,`qalam_mis_dental_version`.`customers`.`status` AS `status`,`qalam_mis_dental_version`.`customers`.`address` AS `address`,`qalam_mis_dental_version`.`provinces`.`name` AS `province_name`,`qalam_mis_dental_version`.`customers`.`date` AS `date`,sum(`qalam_mis_dental_version`.`sale_minor`.`sale_rate` * `qalam_mis_dental_version`.`sale_minor`.`amount`) AS `total_sale_price` from ((`qalam_mis_dental_version`.`customers` left join `qalam_mis_dental_version`.`sale_major` on(`qalam_mis_dental_version`.`customers`.`id` = `qalam_mis_dental_version`.`sale_major`.`customer_id`)) left join `qalam_mis_dental_version`.`sale_minor` on(`qalam_mis_dental_version`.`sale_minor`.`sale_major_id` = `qalam_mis_dental_version`.`sale_major`.`id`)) LEFT JOIN provinces ON provinces.id = customers.province_id group by `qalam_mis_dental_version`.`customers`.`id`");
                                         while ($row = mysqli_fetch_assoc($sql_query_001))
                                         {   
                                             $customer_id = $row["id"];
@@ -98,22 +99,39 @@
                                             <td class="text text-success"><?php echo round($row["total_sale_price"],2); ?></td>
                                             <td><?php echo round($fetch_003["total_customer_credits"] - $fetch_003["total_customer_debits"],2); ?></td>
                                             <td>
-                                                <a title="افزودن رسید" href="customer_reciepts.php?customer_id=<?php echo $row['id']; ?>"><span class="fa fa-plus text text-success" ></span></a>
-                                                <!-- <?php
-                                                if($fetch_003["total_supplier_reciepts"] > 0)
+                                                <?php
+                                                if($row["status"] == 1)
+                                                {
+                                                    echo "حساب بسته شده"; 
+                                                }
+                                                else
+                                                {
+                                                    echo "حساب باز است"; 
+                                                }
+                                                ?> 
+                                            </td>
+                                            <td>
+                                               
+                                                <?php
+                                                if(!($row["status"] == 1))
                                                 {
                                                 ?>
-                                                <a title="انتقال پول" href="supplier_to_supplier_transfer.php?supplier_id=<?php echo $row['id']; ?>"><span class="fa fa-share text text-danger" ></span></a>
+                                                 <a title="افزودن رسید" href="customer_reciepts.php?customer_id=<?php echo $row['id']; ?>"><span class="fa fa-plus text text-success" ></span></a> | 
+                                                 
+                                                
+                                                    <i title='بستن حساب' onclick="terminate_account(<?php echo $row['id']; ?>)" style="cursor:pointer;" class="mdi mdi-close-network text text-danger"></i>
+                                                 
+                                                    | 
                                                 <?php
                                                 }
-                                                ?> -->
+                                                ?> 
 
-                                                | <a title="نمایش" href="customer_account_billance.php?customer_id=<?php echo $row['id']; ?>&customer_name=<?php echo $row["full_name"]; ?>"><span class="fa fa-eye text text-primary" ></span></a>   
+                                                <a title="نمایش" href="customer_account_billance.php?customer_id=<?php echo $row['id']; ?>&customer_name=<?php echo $row["full_name"]; ?>"><span class="fa fa-eye text text-primary" ></span></a>   
                                                 |   
                                                 <a href="customer_purchased_product_details.php?customer_id=<?php echo $row['id']; ?>&customer_name=<?php echo $row['full_name']; ?>" >
                                                     <i style="cursor:pointer;" class="mdi mdi-account-card-details text text-success"></i>
                                                 </a>  
-
+                                               
                                             </td>
                                             
                                         </tr>
@@ -289,7 +307,33 @@
                 },
                 url: "delete.php",
                 success: function(msg) {
-                window.open("registered_agencies.php",'_self');            
+                window.open("customers_billance.php",'_self');            
+                
+                }
+            });
+            }
+            else
+            {
+                
+            }
+            
+
+            }
+        </script>
+
+<script>
+            function terminate_account(id){
+            var confirm  = window.confirm("آیا میخواهید این حساب را بسته کنید؟");
+            if(confirm == true)
+            {
+                $.ajax({
+                type: "POST",
+                data: {
+                t_customer_id:id,
+                },
+                url: "server.php",
+                success: function(msg) {
+                window.open("customers_billance.php",'_self');            
                 
                 }
             });

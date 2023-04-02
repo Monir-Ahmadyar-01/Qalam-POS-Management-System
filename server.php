@@ -180,7 +180,6 @@
         $array_tb = array();
         $counter = 0;
         array_push($array_tb,mysqli_fetch_array($sql_query_001));
-
         while ($rows = mysqli_fetch_array($sql_query_002)) {
             
             array_push($array_tb,$rows);
@@ -1718,6 +1717,34 @@
         }
         
     }
+    if(isset($_POST["t_customer_id"]))
+    {
+        $customer_id = $_POST["t_customer_id"];
+        $sql_query_0012 = mysqli_query($connection,"update customers set status=1 where id='$customer_id'");
+
+        if($sql_query_0012)
+        {
+            echo "success";
+        }else
+        {
+            echo "failed";
+        }
+    }
+
+    if(isset($_POST["t_supplier_id"]))
+    {
+        $supplier_id = $_POST["t_supplier_id"];
+        $sql_query_0012 = mysqli_query($connection,"update suppliers set status=1 where id='$supplier_id'");
+
+        if($sql_query_0012)
+        {
+            echo "success";
+        }else
+        {
+            echo "failed";
+        }
+    }
+
     
     
 ?>

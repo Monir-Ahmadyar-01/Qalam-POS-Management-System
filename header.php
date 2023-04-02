@@ -83,10 +83,10 @@ if($_SESSION["authority"] == "Admin")
                         <li class="float-left logo-box">
                             <a href="home.php" class="logo">
                                 <span class="logo-lg">
-                                    <img src="assets/images/logo-light.png" alt="" height="22">
+                                    <img src="assets/images/logo-light.png" alt="" height="100">
                                 </span>
                                 <span class="logo-sm">
-                                    <img src="assets/images/logo-sm.png" alt="" height="24">
+                                    <img src="assets/images/logo-sm.png" alt="" height="100">
                                 </span>
                             </a>
                         </li>

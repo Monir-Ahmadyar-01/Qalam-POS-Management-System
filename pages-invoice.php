@@ -136,18 +136,18 @@
                 <div class="col-md-12">
                     <div class="card-box">
 
-                        <!-- Logo & title  -->
-                        <div class="clearfix display_print">
-                            <div class="float-left">
-                                <span style="z-index: 5; position:absolute; top:73px; left:205px; font-size:11px;"><?php echo date("Y-m-d"); ?></span>
-                                <span style="z-index: 5; position:absolute; top:89px; left:230px; font-size:11px;"><?php
-                                $sql_query_02 = mysqli_query($connection,"SELECT MAX(sale_major.id) as max_id FROM sale_major");
-                                $fetch_002 = mysqli_fetch_assoc($sql_query_02);
-                                echo $fetch_002["max_id"]+1; ?></span>
-                                <img src="assets/images/invoice_header.jpg" alt="" style="width:100%;">
-                            </div>
+                    <div class="row" style="display: flex;
+        height: 200px;
+        margin: auto;
+        border: 2px dashed black;
+        align-items:center;
+        justify-content:center;">
+                        <div class="cl-sm-3">
+                        <img src="assets/images/logo-dark.png" alt="logo" style="height:200px; float:right;">
+                                
                         </div>
-                        <br>
+                        <div class="col-sm-9" ><h1>شرکت مواد تجهیزات دندان حسین خیل</h1><hr></div>
+                    </div>
                         <hr>
                         
 
@@ -158,8 +158,14 @@
                                     <col width="25%;">
                                     <col width="25%;">
                                 </colgroup>
-                                <tr class="print-display">
-                                    <th colspan="4" style="font-size: 40px; text-align:center; border-bottom:1px solid black;">بل فروش</th>
+                                <tr >
+                                    <th colspan="3" style="font-size: 40px; text-align:center; border-bottom:1px solid black;">فاکتور فروش</th>
+                                    <th style="font-size: 20px; text-align:center; border-bottom:1px solid black;">
+                                    نمبر فاکتور : <?php
+                                        $sql_query_02 = mysqli_query($connection,"SELECT MAX(sale_major.id) as max_id FROM sale_major");
+                                        $fetch_002 = mysqli_fetch_assoc($sql_query_02);
+                                        echo $fetch_002["max_id"]+1; ?>
+                                    </th>
                                 </tr>
                                 <tr>
                                     <td class="print-display">
@@ -238,7 +244,7 @@
                                         <div class="print-display">                                
                                             <select id="customer_id" class="select2 form-control pt-4 print-display">
                                                 <?php
-                                                        $sql_query_01 = mysqli_query($connection,"select * from customers");
+                                                        $sql_query_01 = mysqli_query($connection,"select * from customers where status=0");
                                                         while ($row = mysqli_fetch_assoc($sql_query_01))
                                                         {
                                                     ?>
@@ -317,9 +323,9 @@
 
                         <div class="mt-4 mb-1">
                             <div class="text-right d-print-none">
-                                <!-- <button type="button" onclick="print_func()"
+                                <button type="button" onclick="print_func()"
                                     class="btn btn-danger waves-effect btn-sm waves-light"><i
-                                        class="mdi mdi-printer mr-1"></i>چاپ</button> -->
+                                        class="mdi mdi-printer mr-1"></i>چاپ</button>
                                 <button type="button" class="btn btn-sm btn-success waves-effect waves-light"
                                     id="button_submit">ذخیره</button>
                             </div>
@@ -334,7 +340,12 @@
         </div> <!-- end container -->
     </div>
 
-    <img class="display_print" src="assets/images/invoice-footer-design.jpg" alt="" style="width:100%; position:absolute; bottom:0px !important;">
+    <div class="row display_print" style="position:absolute; bottom:0px;">
+        <div class="col-sm-12">
+            <h3>آدرس : هرات شهرنو مارکیت حضرت ها در چهارم طبقه دوم دوکان نمبر 357 </h3>
+            <h3>شماره تماس : 0794202090 </h3>
+        </div>
+    </div>
 
     <!-- end wrapper -->
 
@@ -768,9 +779,6 @@
                 add_sale_purchase_id: purchase_id,
                 amount: amount,
                 sale_price: sale_price,
-                // expense: expense,
-                // commission: commission,
-                // party_number: party_number,
                 currency: currency,
                 rate: rate,
                 sale_date: sale_date,
@@ -782,7 +790,7 @@
             success: function(response) {
                 alert(response);
                 // print_func();
-                window.location.href = window.location.href;           
+                       
             }
 
         });
@@ -813,6 +821,7 @@
             $("#rate").remove();
 
             window.print();
+            window.location.href = window.location.href;    
         }
 
     </script>
