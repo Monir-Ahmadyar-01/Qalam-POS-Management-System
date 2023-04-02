@@ -101,7 +101,11 @@
 
         } */ 
     }
-    </style>
+    @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
+    
+</style>
+
+
 </head>
 
 <body>
@@ -146,7 +150,10 @@
                         <img src="assets/images/logo-dark.png" alt="logo" style="height:200px; float:right;">
                                 
                         </div>
-                        <div class="col-sm-9" ><h1>شرکت مواد تجهیزات دندان حسین خیل</h1><hr></div>
+                        <div class="col-sm-9" ><h1 style="font-family: 'Amiri', serif !important;
+        font-weight: bold;">شرکت مواد تجهیزات دندان حسین خیل</h1>
+                        <h1>Hussain Khil Dental Supply Company</h1>
+                        <hr></div>
                     </div>
                         <hr>
                         
@@ -342,7 +349,8 @@
 
     <div class="row display_print" style="position:absolute; bottom:0px;">
         <div class="col-sm-12">
-            <h3>آدرس : هرات شهرنو مارکیت حضرت ها در چهارم طبقه دوم دوکان نمبر 357 </h3>
+            <h3 style="font-family: 'Amiri', serif !important;
+        font-weight: bold;">آدرس : هرات شهرنو مارکیت حضرت ها درب چهارم طبقه دوم دوکان نمبر 357 </h3>
             <h3>شماره تماس : 0794202090 </h3>
         </div>
     </div>
