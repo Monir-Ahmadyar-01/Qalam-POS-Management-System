@@ -114,7 +114,7 @@
                                                 if(!($row["status"] == 1))
                                                 {
                                                 ?>
-                                                 <a title="افزودن رسید" href="customer_reciepts.php?customer_id=<?php echo $row['id']; ?>"><span class="fa fa-plus text text-success" ></span></a> | 
+                                                 <a title="افزودن رسید" href="supplier_reciepts.php?supplier_id=<?php echo $row['id']; ?>"><span class="fa fa-plus text text-success" ></span></a> | 
                                                  
                                                 
                                                     <i title='بستن حساب' onclick="terminate_account(<?php echo $row['id']; ?>)" style="cursor:pointer;" class="mdi mdi-close-network text text-danger"></i>

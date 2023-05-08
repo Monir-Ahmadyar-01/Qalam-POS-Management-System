@@ -157,6 +157,7 @@
                                         <td class="print-display"><span class="fa fa-edit text text-success admin_authority" id="btn_modal" class="btn btn-primary" onclick="set_row_data_edit_func(<?php echo $row['bill_number']; ?>)" data-toggle="modal"
         data-target="#exampleModal"></span> | <a class="collapsed card-link" data-toggle="collapse" href="#collapse_<?php echo $count; ?>"><span class="fa fa-eye"></span></a> | <span class="fa fa-trash text text-danger admin_authority" onclick="delete_func(<?php echo $row['bill_number']; ?>)"></span>
          <!-- | <a href="sales_reciepts.php?sale_id=<?php echo $row['bill_number']; ?>"><span class="fa fa-plus text text-success" ></span></a> -->
+         <a href="pages-invoice.php?invoiceId=<?php echo $row['bill_number']; ?>"><span class="fa fa-print text text-success" ></span></a>
                                         </td>
                                     </tr>
                                                 
