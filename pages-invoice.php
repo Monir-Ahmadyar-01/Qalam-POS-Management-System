@@ -156,203 +156,7 @@
                     </div>
                         <hr>
                         
-                        <?php
-                            if(isset($_GET["invoiceId"]))
-                            {
-                                $invoiceId = $_GET["invoiceId"];
-                                $sql_query_02 = mysqli_query($connection,"SELECT * FROM `sale_major` where id='$invoiceId'");
-                                $fetch_002 = mysqli_fetch_assoc($sql_query_02);
-                        ?>
-                            <table class="table table-bordered header-table">
-                                <colgroup>
-                                    <col width="25%;">
-                                    <col width="25%;">
-                                    <col width="25%;">
-                                    <col width="25%;">
-                                </colgroup>
-                                <tr >
-                                    <th colspan="3" style="font-size: 40px; text-align:center; border-bottom:1px solid black;">فاکتور فروش</th>
-                                    <th style="font-size: 20px; text-align:center; border-bottom:1px solid black;">
-                                    نمبر فاکتور : <?php
-                                        echo $fetch_002["id"];
-                                        ; ?>
-                                    </th>
-                                </tr>
-                                <tr>
-                                   
-                                    <td >
-                                        <div class="form-group">
-                                            <label for="sale_date" class="col-form-label">تاریخ فروش</label>
-                                            <input type="text" readonly name="sale_date" style="font-family:tahoma;" value="<?php
-                                            $date_m = explode("-",$fetch_002["date"]);
-                                            $date_sh =  gregorian_to_jalali($date_m[0],$date_m[1],$date_m[2],'-');
-                                            echo $date_sh;
-                                             ?>"
-                                                class="form-control" id="sale_date">
-                                            <h3 id="sale_date_td"></h3>
-                                            
-                                        </div>
 
-                                    </td>
-                                    <td>
-                                    <div class="form-group">
-                                        <div class="print-display">
-                                            <label for="currency" class="col-form-label print-display"> واحد پولی رسید  </label>
-                                            <br>
-                                            <select id="currency" name="currency" class="select2 form-control print-display">
-                                                <?php
-                                                    $sql_query_01 = mysqli_query($connection,"select * from currencies");
-                                                    while ($row = mysqli_fetch_assoc($sql_query_01))
-                                                    {
-                                                        if($row["id"] == $fetch_002["currency_id"])
-                                                        {
-                                                ?>
-                                                <option value="<?php echo $row["id"]; ?>">
-                                                    <?php echo $row["name"]; ?></option>
-                                                <?php
-                                                        }
-                                                    }
-                                                    ?>
-                                            </select>
-                                        </div>
-                                    <label for="currency" class="col-form-label display_print"> واحد پولی رسید  </label>
-                                    <h3 id="currency_td"></h3>
-                                </div>
-                                    </td>
-                                    <td>
-                                    <div class="form-group">
-                                    <label for="rate" class="col-form-label">نرخ</label>
-                                    <span class="text-danger">*</span>
-                                    <input type="number" readonly step="0.01" value="1" class="form-control border border-dark" name="rate" id="rate"  >
-                                    <h3 id="rate_td"></h3>
-                                </div>  
-                                    </td>
-                                 
-                                </tr>
-                                <tr>
-                                    <th colspan="1" style="font-size:20px;">
-                                    مشتری   
-                                    </th>
-                                    <th  colspan="1">
-                                        <div class="print-display">                                
-                                            <select id="customer_id" class="select2 form-control pt-4 print-display">
-                                                <?php
-                                                        $sql_query_01 = mysqli_query($connection,"select * from customers where status IS NULL");
-                                                        while ($row = mysqli_fetch_assoc($sql_query_01))
-                                                        {
-                                                            if($row["id"] == $fetch_002["customer_id"])
-                                                        {
-                                                    ?>
-
-                                                <option selected value="<?php echo $row["id"]; ?>">
-                                                    <?php echo $row["full_name"]; ?></option>
-                                                <?php
-                                                            }
-                                                        }
-                                                        ?>
-                                            </select>
-                                        </div>
-                                        <h3 id="customer_id_td"></h3>
-                                    </th>
-                                    
-
-                                    </th>
-                                </tr>
-                            </table>
-                       
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="table-responsive">
-                                    <table class="table mt-4 table-sm table-centered table-sm table-striped">
-                                        <thead>
-                                            
-                                            <tr>
-                                                <th style="width: 5%">#</th>
-                                                <th style="width: 15%">جنس</th>
-                                                <!-- <th style="width: 7%" class="print-display"> پارتی نمبر</th> -->
-                                                
-                                                <!-- <th style="width: 7%" class="print-display">مقدار موجود</th> -->
-                                                <th style="width: 5%">واحد </th>
-                                               
-                                                <th style="width: 5%">مقدار</th>
-                                                <th style="width: 10%" class="text-right print-display">قیمت خرید | 1</th>
-                                                <th style="width: 10%" class="text-right">قیمت فروش | 1</th>
-                                                <!-- <th style="width: 7%" class="text-right"> مصرف | 1</th> -->
-                                                <!-- <th style="width: 5%" class="text-right print-display"> کمیشن فروشنده | 1</th> -->
-                                                <th style="width: 10%" class="text-right">مجموع</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="bill_tbody">
-                                            <?php 
-                                            $sql_query_004 = mysqli_query($connection,"select (select (select `qalam_mis_dental_version`.`stock_minor`.`item_name` from `qalam_mis_dental_version`.`stock_minor` where `qalam_mis_dental_version`.`stock_minor`.`id` = `qalam_mis_dental_version`.`stock_major`.`item_id`) from `qalam_mis_dental_version`.`stock_major` where `qalam_mis_dental_version`.`stock_major`.`id` = `qalam_mis_dental_version`.`purchase_minor`.`item_id_stock_major`) AS `item_name`,(select `qalam_mis_dental_version`.`purchase_major`.`party_number` from `qalam_mis_dental_version`.`purchase_major` where `qalam_mis_dental_version`.`purchase_major`.`id` = `qalam_mis_dental_version`.`purchase_minor`.`purchase_major_id`) AS `party_number`,(select `qalam_mis_dental_version`.`unit_minor`.`unit_name` from `qalam_mis_dental_version`.`unit_minor` where `qalam_mis_dental_version`.`unit_minor`.`id` = (select `qalam_mis_dental_version`.`stock_major`.`minor_unit_id` from `qalam_mis_dental_version`.`stock_major` where `qalam_mis_dental_version`.`stock_major`.`id` = `qalam_mis_dental_version`.`purchase_minor`.`item_id_stock_major`)) AS `unit_name`,`qalam_mis_dental_version`.`purchase_minor`.`purchase_price` + `qalam_mis_dental_version`.`purchase_minor`.`commision_expense` + `qalam_mis_dental_version`.`purchase_minor`.`office_expense` AS `purchase_price_t`,`qalam_mis_dental_version`.`sale_minor`.`id` AS `id`,`qalam_mis_dental_version`.`sale_minor`.`sale_major_id` AS `sale_major_id`,`qalam_mis_dental_version`.`sale_minor`.`amount` AS `amount`,`qalam_mis_dental_version`.`sale_minor`.`details` AS `details`,`qalam_mis_dental_version`.`sale_minor`.`sale_rate` AS `sale_rate` ,`qalam_mis_dental_version`.`sale_minor`.`expense` AS `expense` from (`qalam_mis_dental_version`.`sale_minor` left join `qalam_mis_dental_version`.`purchase_minor` on(`qalam_mis_dental_version`.`sale_minor`.`purchase_minor_id` = `qalam_mis_dental_version`.`purchase_minor`.`id`))  where sale_major_id='$invoiceId'");
-                                            $count_2 = 1;
-                                            $total_sold_amount = 0;
-                                            while ($rows = mysqli_fetch_assoc($sql_query_004)) {
-                                             
-                                            
-                                            ?>
-
-                                                <tr>
-                                                    <td><?php echo $count_2; ?></td>
-                                                    <td><?php echo $rows["item_name"]; ?></td>
-                                                    <td><?php echo $rows["unit_name"]; ?></td>
-                                                    <td><?php echo $rows["amount"]; ?></td>
-                                                    <td class="print-display"><?php echo round($rows["purchase_price_t"],2); ?></td>
-                                                    <td><?php echo round($rows["sale_rate"],2); ?></td>
-                                                    <td class="text text-success"><?php
-                                                                $total_sold_amount = $total_sold_amount + (($rows["sale_rate"]) * $rows["amount"]);
-
-                                                                echo round(($rows["sale_rate"]) * $rows["amount"],2); ?></td>
-                                                </tr>
-
-                                            <?php
-                                            $count_2++;
-                                            }
-                                            ?>
-
-                                        </tbody>
-                                        <tfoot>
-                                            <tr >
-                                                <th>مجموع مقدار</th>
-                                                <th><input type="text" value="<?php echo $total_sold_amount; ?>" id="total_price_final" readonly
-                                                        name="total_price_final"
-                                                        class="form-control total_reciept form-control-sm"></th>
-                                            </tr>
-                                            <?php
-                                            $sql_query_005 = mysqli_query($connection,"select credit_amount from customer_billance where sale_id='$invoiceId' order by id desc limit 1");
-                                            $fetch_005 = mysqli_fetch_assoc($sql_query_005);
-                                            ?>
-                                            <tr>
-                                                <th>مجموع رسید</th>
-                                                <th><input type="text" id="total_reciept" value="<?php echo $fetch_005["credit_amount"]; ?>"
-                                                        class="form-control total_reciept form-control-sm"></th>
-                                            </tr>
-                                            <tr>
-                                                <th>مجموع باقی</th>
-                                                <th id="total_remain"><?php echo $total_sold_amount-$fetch_005["credit_amount"]; ?></th>
-                                            </tr>
-
-                                        </tfoot>
-                                    </table>
-                                </div> <!-- end table-responsive -->
-                            </div> <!-- end col -->
-                        </div>
-                        <!-- end row -->
-
-                        <div class="mt-4 mb-1">
-                            <div class="text-right d-print-none">
-                                <button type="button" onclick="print_func()"
-                                    class="btn btn-danger waves-effect btn-sm waves-light"><i
-                                        class="mdi mdi-printer mr-1"></i>چاپ</button>
-                              
-                            </div>
-                        </div>
-
-                        <?php
-                            }
-                            else
-                            {
-                        ?>
                             <table class="table table-bordered header-table">
                                 <colgroup>
                                     <col width="25%;">
@@ -446,7 +250,7 @@
                                         <div class="print-display">                                
                                             <select id="customer_id" class="select2 form-control pt-4 print-display">
                                                 <?php
-                                                        $sql_query_01 = mysqli_query($connection,"select * from customers where status IS NULL");
+                                                        $sql_query_01 = mysqli_query($connection,"select * from customers ");
                                                         while ($row = mysqli_fetch_assoc($sql_query_01))
                                                         {
                                                     ?>
@@ -466,6 +270,11 @@
                                 </tr>
                             </table>
                        
+                           
+                            
+
+
+
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="table-responsive">
@@ -517,6 +326,7 @@
                         </div>
                         <!-- end row -->
 
+
                         <div class="mt-4 mb-1">
                             <div class="text-right d-print-none">
                                 <button type="button" onclick="print_func()"
@@ -526,11 +336,6 @@
                                     id="button_submit">ذخیره</button>
                             </div>
                         </div>
-
-                        <?php
-                            }
-                        ?>
-                            
                     </div>
 
                 </div>
@@ -991,6 +796,9 @@
             url: "server.php",
             success: function(response) {
                 alert(response);
+                setTimeout(() => {
+                    location.reload();
+                }, 100);
                 // print_func();
                        
             }
